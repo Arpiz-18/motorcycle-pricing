@@ -15,6 +15,11 @@ boosting beats them under nested cross-validation.
 - Owner age, geographic zone, bike age and bike class drive frequency; bike age also drives cost per claim.
 - Frequency times severity gives a pure premium that tracks actual cost by quintile.
 
+![Model comparison](cv_comparison.png)
+![Predicted versus actual claim frequency](calibration.png)
+![GLM relativities](relativities.png)
+![Pure premium by risk quintile](pure_premium.png)
+
 ## Reproduce
 
 ```bash

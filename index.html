@@ -78,7 +78,7 @@ footer { color: var(--muted); font-size: 0.85rem; border-top: 1px solid var(--li
   <span class="eyebrow">Pricing model · Swedish motorcycle insurance, 1994 to 1998</span>
   <h1>Motorcycle Insurance Pricing</h1>
   <p class="lede">A Poisson GLM for claim frequency, a Gamma GLM for claim cost, and a test of whether gradient boosting beats them. On this data it does not, and the simple model ranks risk from 0.2 to 6.0 claims per 100 policy years.</p>
-  <span class="byline">By Arpit Agarwal · <a href="https://github.com/YOUR-USERNAME/motorcycle-pricing">Code and data steps on GitHub</a></span>
+  <span class="byline">By Arpit Agarwal · <a href="https://github.com/Arpiz-18/motorcycle-pricing">Code and data steps on GitHub</a></span>
 </header>
 
 <div class="figures">
@@ -123,7 +123,7 @@ footer { color: var(--muted); font-size: 0.85rem; border-top: 1px solid var(--li
   </div>
   <p>Both models improve on the no-model baseline by about 12 to 13%, and the GLM is slightly ahead in every fold. Plus-or-minus values are standard errors across folds, and the Gini coefficients come from out-of-fold predictions of one repetition. This is a statement about this dataset: six categorical factors and 693 claims leave little for a flexible model to find. A GLM also has the advantage that every price relativity can be read off and explained.</p>
   <figure class="narrow">
-    <img src="results/cv_comparison.png" alt="Bar chart: deviance reduction versus the no-model baseline, about 12.9% for the Poisson GLM and 12.4% for gradient boosting, with error bars.">
+    <img src="cv_comparison.png" alt="Bar chart: deviance reduction versus the no-model baseline, about 12.9% for the Poisson GLM and 12.4% for gradient boosting, with error bars.">
     <figcaption>Held-out deviance reduction versus a no-model baseline, mean across 10 folds, error bars are one standard error.</figcaption>
   </figure>
 </section>
@@ -132,7 +132,7 @@ footer { color: var(--muted); font-size: 0.85rem; border-top: 1px solid var(--li
   <h2>Predicted risk tracks actual claims</h2>
   <p>To check calibration, I ranked every policy cell by its out-of-fold predicted frequency, split them into ten equal-sized groups, and compared predicted with actual claims. The riskiest tenth claims about 6.0 times per 100 policy years against 0.2 for the safest tenth, a ratio of roughly 27. The safest group holds only 18 claims, so that ratio is approximate.</p>
   <figure>
-    <img src="results/calibration.png" alt="Two bar charts of actual versus predicted claims per 100 policy years across ten risk deciles, for the GLM and for gradient boosting. Bars match closely, rising from about 0.2 to about 6.">
+    <img src="calibration.png" alt="Two bar charts of actual versus predicted claims per 100 policy years across ten risk deciles, for the GLM and for gradient boosting. Bars match closely, rising from about 0.2 to about 6.">
     <figcaption>Actual versus predicted claim frequency by decile of predicted risk. Predictions are out-of-fold, so each cell was scored by a model that never saw it.</figcaption>
   </figure>
 </section>
@@ -149,7 +149,7 @@ footer { color: var(--muted); font-size: 0.85rem; border-top: 1px solid var(--li
     <li><strong>Bonus class.</strong> Not significant once the other factors are in the model (likelihood-ratio p = 0.15). Owner age, zone, bike class and bike age all have p below 0.001, and sex has p = 0.014.</li>
   </ul>
   <figure>
-    <img src="results/relativities.png" alt="Six panels of GLM relativities with confidence intervals for zone, bike class, owner age, bike age, bonus class and sex, on a log scale.">
+    <img src="relativities.png" alt="Six panels of GLM relativities with confidence intervals for zone, bike class, owner age, bike age, bonus class and sex, on a log scale.">
     <figcaption>Poisson GLM relativities on a log axis. Reference levels: zone 4, bike class 3, owner age 40 to 49, bike age 10 to 14, bonus class 7, male.</figcaption>
   </figure>
   <p class="note">Sex is kept here because it is in the original data. Using gender as a rating factor has not been allowed in EU and UK insurance pricing since 2012, so a current model would leave it out.</p>
@@ -160,7 +160,7 @@ footer { color: var(--muted); font-size: 0.85rem; border-top: 1px solid var(--li
   <p>Claim cost depends mostly on bike age. The average claim costs SEK 24,446, but SEK 39,460 on bikes under two years old against SEK 8,713 on bikes aged 15 to 24. A Gamma GLM using bike age, zone group and owner age band lowers held-out Gamma deviance from 2.00 to 1.65 and does better than a flat average in all 5 folds. With 666 claim cells it is a noisier model than the frequency one.</p>
   <p>Multiplying predicted frequency by predicted severity gives a pure premium, the expected claim cost per policy year before expenses and profit. Grouped into quintiles of predicted pure premium, the out-of-fold predictions stay close to actual cost, and the top quintile is predicted at SEK 1,136 against SEK 1,149 actual. A version using a flat average severity under-predicted the top quintile by about 13% and over-predicted the bottom by about 80%, so the severity model matters.</p>
   <figure class="narrow">
-    <img src="results/pure_premium.png" alt="Bar chart of actual versus predicted cost per policy year across five quintiles of predicted pure premium, close agreement rising from about 25 to about 1,150 kronor.">
+    <img src="pure_premium.png" alt="Bar chart of actual versus predicted cost per policy year across five quintiles of predicted pure premium, close agreement rising from about 25 to about 1,150 kronor.">
     <figcaption>Actual versus predicted claim cost per policy year, by quintile of predicted pure premium. Out-of-fold predictions.</figcaption>
   </figure>
 </section>
