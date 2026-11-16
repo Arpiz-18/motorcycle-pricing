@@ -4,7 +4,7 @@ Claim frequency and severity models for Swedish motorcycle insurance (Wasa, 1994
 a Poisson GLM for frequency, a Gamma GLM for claim cost, and a test of whether gradient
 boosting beats them under nested cross-validation.
 
-**Live page:** https://YOUR-USERNAME.github.io/motorcycle-pricing/
+**Live page:** https://arpiz-18.github.io/motorcycle-pricing/
 
 ## What it shows
 
