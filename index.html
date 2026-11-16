@@ -1,0 +1,186 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Motorcycle Insurance Pricing</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<style>
+/* Layout: one reading column, figures full width of the column, key figures in a wrapping strip. */
+:root {
+  --bg: #f5f6f8;
+  --surface: #ffffff;
+  --ink: #141a24;
+  --muted: #5a6475;
+  --line: #dde1e8;
+  --accent: #2f5fc4;
+  --accent-2: #c76a18;
+  --font-body: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-data: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0e1218; --surface: #161c25; --ink: #e8ecf2; --muted: #98a2b3;
+    --line: #283140; --accent: #7aa2f0; --accent-2: #e8a05a; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0e1218; --surface: #161c25; --ink: #e8ecf2; --muted: #98a2b3;
+  --line: #283140; --accent: #7aa2f0; --accent-2: #e8a05a; color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body {
+  background: var(--bg); color: var(--ink);
+  font: 16px/1.65 var(--font-body);
+  padding-block: 40px 56px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+main { max-width: 860px; margin: 0 auto; display: flex; flex-direction: column; gap: 44px; }
+h1, h2, h3 { font-weight: 600; line-height: 1.2; text-wrap: balance; margin: 0; }
+h1 { font-size: clamp(1.9rem, 5vw, 2.7rem); letter-spacing: -0.02em; }
+h2 { font-size: 1.35rem; letter-spacing: -0.01em; }
+p { margin: 0 0 14px; max-width: 68ch; }
+p:last-child { margin-bottom: 0; }
+a { color: var(--accent); text-underline-offset: 3px; }
+a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.eyebrow { font: 500 0.78rem/1.5 var(--font-data); letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
+header { display: flex; flex-direction: column; gap: 16px; }
+.lede { font-size: 1.15rem; color: var(--ink); max-width: 62ch; }
+.byline { color: var(--muted); font-size: 0.92rem; }
+.figures { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; }
+.figure-tile { background: var(--surface); border: 1px solid var(--line); border-radius: 6px; padding: 16px; min-width: 0; }
+.figure-tile b { display: block; font: 500 1.7rem/1.1 var(--font-data); letter-spacing: -0.02em; font-variant-numeric: tabular-nums; }
+.figure-tile span { display: block; margin-top: 8px; font-size: 0.85rem; color: var(--muted); line-height: 1.4; }
+section { display: flex; flex-direction: column; gap: 16px; min-width: 0; }
+figure { margin: 0; background: var(--surface); border: 1px solid var(--line); border-radius: 6px; padding: 16px; }
+figure img { display: block; width: 100%; height: auto; max-width: 100%; }
+figure.narrow img { max-width: 520px; margin: 0 auto; }
+figcaption { margin-top: 12px; font-size: 0.86rem; color: var(--muted); line-height: 1.5; }
+.table-wrap { overflow-x: auto; border: 1px solid var(--line); border-radius: 6px; background: var(--surface); }
+table { border-collapse: collapse; width: 100%; min-width: 520px; font-size: 0.92rem; }
+th, td { text-align: left; padding: 10px 14px; border-bottom: 1px solid var(--line); }
+tr:last-child td { border-bottom: 0; }
+th { font: 500 0.78rem/1.2 var(--font-data); letter-spacing: 0.05em; text-transform: uppercase; color: var(--muted); }
+td.num, th.num { text-align: right; font-family: var(--font-data); font-variant-numeric: tabular-nums; }
+ul { margin: 0; padding-left: 1.2em; display: flex; flex-direction: column; gap: 8px; max-width: 68ch; }
+code { font: 0.9em var(--font-data); background: var(--surface); border: 1px solid var(--line); border-radius: 4px; padding: 1px 5px; }
+.note { border-left: 3px solid var(--accent-2); padding: 4px 0 4px 14px; color: var(--ink); max-width: 68ch; }
+footer { color: var(--muted); font-size: 0.85rem; border-top: 1px solid var(--line); padding-top: 20px; }
+</style>
+</head>
+<body>
+<main>
+
+<header>
+  <span class="eyebrow">Pricing model · Swedish motorcycle insurance, 1994 to 1998</span>
+  <h1>Motorcycle Insurance Pricing</h1>
+  <p class="lede">A Poisson GLM for claim frequency, a Gamma GLM for claim cost, and a test of whether gradient boosting beats them. On this data it does not, and the simple model ranks risk from 0.2 to 6.0 claims per 100 policy years.</p>
+  <span class="byline">By Arpit Agarwal · <a href="https://github.com/YOUR-USERNAME/motorcycle-pricing">Code and data steps on GitHub</a></span>
+</header>
+
+<div class="figures">
+  <div class="figure-tile"><b>65,237</b><span>policy years of exposure in 62,474 policy cells</span></div>
+  <div class="figure-tile"><b>693</b><span>claims, a rate of 1.06 per 100 policy years</span></div>
+  <div class="figure-tile"><b>12.9%</b><span>out-of-sample deviance reduction for the GLM versus no model</span></div>
+  <div class="figure-tile"><b>0 of 10</b><span>cross-validation folds where gradient boosting beat the GLM</span></div>
+</div>
+
+<section>
+  <h2>The question</h2>
+  <p>An insurer prices a motorcycle policy by estimating how often it will claim and how much a claim will cost, then multiplying the two. Frequency is the harder part here because claims are rare: 693 claims across 65,000 policy years. With so few events, a flexible model can easily fit noise, so the useful question is how much structure the data supports.</p>
+</section>
+
+<section>
+  <h2>The data</h2>
+  <p>The policies come from Wasa, a former Swedish insurer, and cover partial casco insurance for motorcycles. The data was published with Ohlsson and Johansson's textbook <em>Non-life insurance pricing with generalized linear models</em> and is aggregated into cells of policies sharing the same rating factors. Each cell records policy years (exposure), claim count and total claim cost in Swedish kronor.</p>
+  <p>Six rating factors are used: owner age, sex, geographic zone (1 to 7), bike class (power-to-weight ratio, 1 to 7), bike age and bonus class (claim-free history). Ages are grouped into bands. I dropped 2,074 cells with zero exposure, which together hold 4 claims that cannot be attributed to any time at risk.</p>
+</section>
+
+<section>
+  <h2>Method</h2>
+  <ul>
+    <li><strong>Frequency.</strong> A Poisson GLM with the log of exposure as an offset, so a cell with twice the policy years is expected to have twice the claims.</li>
+    <li><strong>Challenger.</strong> Gradient boosting with a Poisson loss and the same six factors.</li>
+    <li><strong>Validation.</strong> Five-fold cross-validation repeated twice, giving 10 held-out folds. Regularisation and boosting settings are tuned inside each training fold, so no fold's test data influences its own model.</li>
+    <li><strong>Metric.</strong> Poisson deviance on held-out data, shown as the percentage reduction against a model that predicts the average rate for everyone.</li>
+    <li><strong>Severity.</strong> A Gamma GLM with a log link on cost per claim, weighted by claim count.</li>
+  </ul>
+</section>
+
+<section>
+  <h2>A simple GLM matches gradient boosting</h2>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Model</th><th class="num">Deviance reduction</th><th class="num">Gini</th><th class="num">Better than GLM</th></tr></thead>
+      <tbody>
+        <tr><td>Poisson GLM</td><td class="num">12.9% ± 0.4</td><td class="num">0.557</td><td class="num">n/a</td></tr>
+        <tr><td>Gradient boosting</td><td class="num">12.4% ± 0.5</td><td class="num">0.536</td><td class="num">0 of 10 folds</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p>Both models improve on the no-model baseline by about 12 to 13%, and the GLM is slightly ahead in every fold. Plus-or-minus values are standard errors across folds, and the Gini coefficients come from out-of-fold predictions of one repetition. This is a statement about this dataset: six categorical factors and 693 claims leave little for a flexible model to find. A GLM also has the advantage that every price relativity can be read off and explained.</p>
+  <figure class="narrow">
+    <img src="results/cv_comparison.png" alt="Bar chart: deviance reduction versus the no-model baseline, about 12.9% for the Poisson GLM and 12.4% for gradient boosting, with error bars.">
+    <figcaption>Held-out deviance reduction versus a no-model baseline, mean across 10 folds, error bars are one standard error.</figcaption>
+  </figure>
+</section>
+
+<section>
+  <h2>Predicted risk tracks actual claims</h2>
+  <p>To check calibration, I ranked every policy cell by its out-of-fold predicted frequency, split them into ten equal-sized groups, and compared predicted with actual claims. The riskiest tenth claims about 6.0 times per 100 policy years against 0.2 for the safest tenth, a ratio of roughly 27. The safest group holds only 18 claims, so that ratio is approximate.</p>
+  <figure>
+    <img src="results/calibration.png" alt="Two bar charts of actual versus predicted claims per 100 policy years across ten risk deciles, for the GLM and for gradient boosting. Bars match closely, rising from about 0.2 to about 6.">
+    <figcaption>Actual versus predicted claim frequency by decile of predicted risk. Predictions are out-of-fold, so each cell was scored by a model that never saw it.</figcaption>
+  </figure>
+</section>
+
+<section>
+  <h2>What drives claim frequency</h2>
+  <p>The chart shows GLM relativities: the multiplier on claim frequency for each level, compared with a reference level and holding the other factors fixed. Whiskers are 95% confidence intervals. Levels with few claims, such as zone 7 with a single claim, have wide intervals.</p>
+  <ul>
+    <li><strong>Owner age.</strong> Owners under 25 claim about 6.7 times as often as owners aged 40 to 49 (95% interval 5.2 to 8.6). The 25 to 29 band is 4.2 times and the 30 to 39 band 2.1 times.</li>
+    <li><strong>Zone.</strong> Zone 1 claims about 4.4 times as often as zone 4 (3.6 to 5.4). In raw data that is 3.0 claims per 100 policy years against 0.6.</li>
+    <li><strong>Bike age.</strong> Bikes up to a year old claim about 3.0 times as often as bikes aged 10 to 14, and bikes aged 15 to 24 about 0.6 times as often.</li>
+    <li><strong>Bike class.</strong> Class 6, the highest class with substantial exposure, is 2.6 times class 3.</li>
+    <li><strong>Sex.</strong> Women claim about 0.73 times as often as men (0.56 to 0.95), a weaker effect than the others.</li>
+    <li><strong>Bonus class.</strong> Not significant once the other factors are in the model (likelihood-ratio p = 0.15). Owner age, zone, bike class and bike age all have p below 0.001, and sex has p = 0.014.</li>
+  </ul>
+  <figure>
+    <img src="results/relativities.png" alt="Six panels of GLM relativities with confidence intervals for zone, bike class, owner age, bike age, bonus class and sex, on a log scale.">
+    <figcaption>Poisson GLM relativities on a log axis. Reference levels: zone 4, bike class 3, owner age 40 to 49, bike age 10 to 14, bonus class 7, male.</figcaption>
+  </figure>
+  <p class="note">Sex is kept here because it is in the original data. Using gender as a rating factor has not been allowed in EU and UK insurance pricing since 2012, so a current model would leave it out.</p>
+</section>
+
+<section>
+  <h2>Severity, and turning it into a price</h2>
+  <p>Claim cost depends mostly on bike age. The average claim costs SEK 24,446, but SEK 39,460 on bikes under two years old against SEK 8,713 on bikes aged 15 to 24. A Gamma GLM using bike age, zone group and owner age band lowers held-out Gamma deviance from 2.00 to 1.65 and does better than a flat average in all 5 folds. With 666 claim cells it is a noisier model than the frequency one.</p>
+  <p>Multiplying predicted frequency by predicted severity gives a pure premium, the expected claim cost per policy year before expenses and profit. Grouped into quintiles of predicted pure premium, the out-of-fold predictions stay close to actual cost, and the top quintile is predicted at SEK 1,136 against SEK 1,149 actual. A version using a flat average severity under-predicted the top quintile by about 13% and over-predicted the bottom by about 80%, so the severity model matters.</p>
+  <figure class="narrow">
+    <img src="results/pure_premium.png" alt="Bar chart of actual versus predicted cost per policy year across five quintiles of predicted pure premium, close agreement rising from about 25 to about 1,150 kronor.">
+    <figcaption>Actual versus predicted claim cost per policy year, by quintile of predicted pure premium. Out-of-fold predictions.</figcaption>
+  </figure>
+</section>
+
+<section>
+  <h2>Limits</h2>
+  <ul>
+    <li>693 claims is a small sample. Rare levels such as zone 7 and bike class 7 are poorly estimated.</li>
+    <li>The data is aggregated, Swedish, from 1994 to 1998, and covers motorcycles. It says nothing about current prices or any current insurer's book.</li>
+    <li>Folds split policy cells at random, which is reasonable for aggregated data but not the same as splitting by time or by policyholder.</li>
+    <li>Gradient boosting was tuned over a small grid. A larger search, monotonic constraints or interaction terms in the GLM could change the comparison.</li>
+    <li>Cost is not adjusted for inflation, and large claims are not capped or modelled separately.</li>
+  </ul>
+  <p>Natural next steps are interaction terms for age and bike class, a Tweedie model that fits pure premium directly, and a time-based validation split.</p>
+</section>
+
+<footer>
+  <p>Data: Wasa motorcycle insurance data from Ohlsson, E. and Johansson, B. (2010), <em>Non-life insurance pricing with generalized linear models</em>, Springer, available through the R package <code>insuranceData</code>. Everything above can be reproduced with <code>python analysis.py</code>; steps are in the repository README.</p>
+</footer>
+
+</main>
+</body>
+</html>
